@@ -2,12 +2,12 @@ fluidPage(
 
   # Application title
   titlePanel("Image Georeferencing"),
-  tags$head(tags$style(HTML("img {
-                                  border: 1;
-                                  max-width: 100%;
-                                  max-height: 100%;
-                                }")
-                       )),
+  # tags$head(tags$style(HTML("img {
+  #                                 border: 1;
+  #                                 max-width: 100%;
+  #                                 max-height: 100%;
+  #                               }")
+  #                      )),
   fluidRow(
     column(2,
            includeMarkdown('instructions.md')
@@ -45,10 +45,10 @@ fluidPage(
     ),
     tags$hr()),
   fluidRow(
-    column(8,
+    column(6,
            shiny::imageOutput('image', click = 'imageClick')),
-    column(4,
-           editModUI("editor", height = 500)),
+    column(6,
+           editModUI("editor", height = 450)),
     tags$hr()),
   fluidRow(column(12,
                   plotOutput('corrected')))
