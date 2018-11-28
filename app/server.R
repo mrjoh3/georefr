@@ -5,7 +5,7 @@ function(input, output) {
   # record clicked points
   img_pts <- reactiveValues(x=NULL, y=NULL)
 
-  geo_pts <- callModule(editMod, "editor", map@map)
+  geo_pts <- callModule(editMod, "editor", map)
 
   # Listen for clicks
   observe({
@@ -48,6 +48,15 @@ function(input, output) {
       rfix  <<- setExtent(r, affinething::domath(pts, xy, r = r))
     })
 
+    # add to leaflet map
+    #crs(rfix) <- "+proj=longlat +datum=WGS84"
+    #epsg3857 <- "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs"
+    #map_raster <- raster(rfix)
+    #proj4string(map_raster) <- CRS("+init=epsg:3857")
+
+    #leafletProxy('map-map') %>%
+      #addRasterImage(raster(rfix), opacity = 0.8, project = FALSE)
+
     output$corrected <- renderPlot({
       plotRGB(rfix)
       maps::map(add = TRUE)
@@ -76,6 +85,16 @@ function(input, output) {
     },
     content = function(file) {
       writeRaster(rfix, file)
+    }
+  )
+
+  # download geometry
+  output$geom <- downloadHandler(
+    filename = function() {
+      paste('georefr_geom', ".geojson", sep = "")
+    },
+    content = function(file) {
+      sf::write_sf(geo_pts()$finished, file)
     }
   )
 
