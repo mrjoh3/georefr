@@ -2,6 +2,12 @@ fluidPage(
 
   # Application title
   titlePanel("Image Georeferencing"),
+  # tags$head(tags$style(HTML("img {
+  #                                 border: 1;
+  #                                 max-width: 100%;
+  #                                 max-height: 100%;
+  #                               }")
+  #                      )),
   fluidRow(
     column(2,
            includeMarkdown('instructions.md')
@@ -11,7 +17,8 @@ fluidPage(
            wellPanel(
              fileInput('add_file', 'Select File')
            ),
-           downloadButton('download', 'Download Corrected Image')
+           downloadButton('download', 'Download Corrected Image'),
+           downloadButton('geom', 'Download Reference Geometry')
     ),
     column(3,
            h3('Parameters'),
@@ -24,7 +31,7 @@ fluidPage(
                                                                      '2 Click Image - 2 Click Map Coordinates' = 3
                                                          ),
                                                          selected = 3),
-                                          numericInput('crs', 'Define CRS', 4283))),
+                                          numericInput('crs', 'Define CRS', 3857))),
                        tabPanel('Known Spatial Information',
                                 wellPanel(style = "background: #ffe6e6",
                                           sliderInput('x', 'X Max and Min', min = -180, max = 180, value = c(-90, 90)),
@@ -38,10 +45,10 @@ fluidPage(
     ),
     tags$hr()),
   fluidRow(
-    column(8,
+    column(6,
            shiny::imageOutput('image', click = 'imageClick')),
-    column(4,
-           editModUI("editor", height = 500)),
+    column(6,
+           editModUI("editor", height = 450)),
     tags$hr()),
   fluidRow(column(12,
                   plotOutput('corrected')))
