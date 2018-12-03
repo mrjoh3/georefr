@@ -6,6 +6,7 @@ library(shiny)
 library(raster)
 library(sf)
 library(affinething)
+library(imager)
 
 library(sp)
 library(rgdal)

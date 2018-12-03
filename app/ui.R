@@ -46,7 +46,8 @@ fluidPage(
     tags$hr()),
   fluidRow(
     column(6,
-           shiny::imageOutput('image', click = 'imageClick')),
+           #shiny::imageOutput('image', click = 'imageClick')),
+           plotOutput('image', click = 'imageClick')),
     column(6,
            editModUI("editor", height = 450)),
     tags$hr()),

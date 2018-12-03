@@ -66,18 +66,33 @@ function(input, output) {
   })
 
   # observe file upload and render
-  output$image <- renderImage({
-
+  # output$image <- renderImage({
+  # 
+  #   filename <- 'world.png' # default not working
+  # 
+  #   # check if file has been uploaded
+  #   if (!is.null(req(input$add_file))) {
+  #     filename <- input$add_file$datapath
+  #   }
+  # 
+  #   list(src = filename)
+  # }, deleteFile = FALSE)
+  output$image <- renderPlot({
+    
     filename <- 'world.png' # default not working
-
+    
     # check if file has been uploaded
     if (!is.null(req(input$add_file))) {
       filename <- input$add_file$datapath
     }
-
-    list(src = filename)
-  }, deleteFile = FALSE)
-
+    
+    img <- load.image(filename)
+    
+    plot(img)
+    
+  })
+  
+  
   # Downloadable georeferenced image
   output$download <- downloadHandler(
     filename = function() {
