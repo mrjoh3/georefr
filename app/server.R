@@ -1,6 +1,6 @@
 
 
-function(input, output) {
+function(input, output, session) {
 
   # record clicked points
   img_pts <- reactiveValues(x=NULL, y=NULL)
@@ -60,8 +60,8 @@ function(input, output) {
     output$corrected <- renderPlot({
       plotRGB(rfix)
       maps::map(add = TRUE)
-      points(pts)
-    })
+      points(pts, col = 'red')
+    }, height = function(){session$clientData$output_corrected_width * 0.66})
 
   })
 
@@ -90,7 +90,7 @@ function(input, output) {
     
     plot(img)
     
-  })
+  }, height = function(){session$clientData$output_image_width * 0.66})
   
   
   # Downloadable georeferenced image
