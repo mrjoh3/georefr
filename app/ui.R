@@ -23,8 +23,8 @@ fluidPage(theme = shinytheme("superhero"),
                                                 numericInput('crs', 'Define CRS', 3857))),
                              tabPanel('Known Spatial Information',
                                       wellPanel(style = "background: #910505",
-                                                sliderInput('x', 'X Max and Min', min = -180, max = 180, value = c(-10, 150)),
-                                                sliderInput('y', 'Y Max and Min', min = -90, max = 90, value = c(-40, 40))))
+                                                sliderInput('xs', 'X Max and Min', min = -180, max = 180, value = c(-10, 150)),
+                                                sliderInput('ys', 'Y Max and Min', min = -90, max = 90, value = c(-40, 40))))
                  ),
                  h3('Run Georeference'),
                  actionButton('btn', 'Run Georeference', class = "btn-primary"),

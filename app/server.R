@@ -4,10 +4,6 @@ function(input, output, session) {
 
   # record clicked points
   img_pts <- reactiveValues(x=NULL, y=NULL)
-  
-  # keep track map bounding box
-  coords <- reactiveValues(x = c(-10, 150),
-                           y = c(-40, 40))
 
   geo_pts <- callModule(editMod, "editor", map)
 
@@ -70,20 +66,13 @@ function(input, output, session) {
   })
 
 
-  # observe map bounding box
+  # observe numeric slider and set map bounding box
   observe({
-                 
-           isolate({
-             coords$x <- input$x
-             coords$y <- input$y
-             
-             assign('coords', reactiveValuesToList(coords), envir = .GlobalEnv)
-             
-             })
+           X <<- input$xs
+           Y <<- input$ys
             
-           leafletProxy('map-editor') %>%
-               fitBounds(coords$x[1], coords$y[1], coords$x[2], coords$y[2])
-                 
+           leafletProxy('editor-map') %>%
+               fitBounds(X[1], Y[1], X[2], Y[2])
            })
   
   
