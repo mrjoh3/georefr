@@ -4,6 +4,10 @@ function(input, output, session) {
 
   # record clicked points
   img_pts <- reactiveValues(x=NULL, y=NULL)
+  
+  # keep track map bounding box
+  coords <- reactiveValues(x = c(-10, 150),
+                           y = c(-40, 40))
 
   geo_pts <- callModule(editMod, "editor", map)
 
@@ -65,18 +69,25 @@ function(input, output, session) {
 
   })
 
-  # observe file upload and render
-  # output$image <- renderImage({
-  # 
-  #   filename <- 'world.png' # default not working
-  # 
-  #   # check if file has been uploaded
-  #   if (!is.null(req(input$add_file))) {
-  #     filename <- input$add_file$datapath
-  #   }
-  # 
-  #   list(src = filename)
-  # }, deleteFile = FALSE)
+
+  # observe map bounding box
+  observe({
+                 
+           isolate({
+             coords$x <- input$x
+             coords$y <- input$y
+             
+             assign('coords', reactiveValuesToList(coords), envir = .GlobalEnv)
+             
+             })
+            
+           leafletProxy('map-editor') %>%
+               fitBounds(coords$x[1], coords$y[1], coords$x[2], coords$y[2])
+                 
+           })
+  
+  
+  
   output$image <- renderPlot({
     
     filename <- 'world.png' # default not working

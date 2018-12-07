@@ -1,4 +1,4 @@
-fluidPage(
+fluidPage(theme = shinytheme("superhero"),
 
   # Application title
   titlePanel("Image Georeferencing"),
@@ -6,16 +6,14 @@ fluidPage(
   sidebarLayout(
     sidebarPanel(width = 3,
                  includeMarkdown('instructions.md'),
-                 h3("Import File to Georeference"),
-                 wellPanel(
-                   fileInput('add_file', 'Select File')
+                 h3("Import Image"),
+                 wellPanel(style = 'background-color: #637281; padding: 10px; margin-top: 5px;',
+                   fileInput('add_file', label = NULL, placeholder =  'JPEG, PNG, TIFF or BMP')
                  ),
-                 downloadButton('download', 'Download Corrected Image'),
-                 downloadButton('geom', 'Download Reference Geometry'),
                  h3('Parameters'),
                  tabsetPanel(type = "tabs",
                              tabPanel('Georefernce Method',
-                                      wellPanel(style = "background: #ffe6e6",
+                                      wellPanel(style = "background: #910505;",
                                                 selectizeInput('method', 'Choose',
                                                                choices = c('No Click'= 1,
                                                                            '2 Click Image - Known Map Coordinates' = 2,
@@ -24,13 +22,15 @@ fluidPage(
                                                                selected = 3),
                                                 numericInput('crs', 'Define CRS', 3857))),
                              tabPanel('Known Spatial Information',
-                                      wellPanel(style = "background: #ffe6e6",
-                                                sliderInput('x', 'X Max and Min', min = -180, max = 180, value = c(-90, 90)),
-                                                sliderInput('y', 'Y Max and Min', min = -90, max = 90, value = c(-45, 45))))
+                                      wellPanel(style = "background: #910505",
+                                                sliderInput('x', 'X Max and Min', min = -180, max = 180, value = c(-10, 150)),
+                                                sliderInput('y', 'Y Max and Min', min = -90, max = 90, value = c(-40, 40))))
                  ),
                  h3('Run Georeference'),
-                 actionButton('btn', 'Run Georeference')
-                 
+                 actionButton('btn', 'Run Georeference', class = "btn-primary"),
+                 tags$hr(),
+                 downloadButton('download', 'Corrected Raster'),
+                 downloadButton('geom', 'Reference Geometry')
                  ),
     mainPanel(
       fluidRow(
