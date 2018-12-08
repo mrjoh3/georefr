@@ -1,14 +1,21 @@
 fluidPage(theme = shinytheme("superhero"),
 
   # Application title
-  titlePanel("Image Georeferencing"),
+  titlePanel(withTags(
+    div("Image Georeferencing",
+        div(class = 'pull-right',
+            a(href = 'https://github.com/mrjoh3/georefr',
+              icon('github'))), hr() )
+    ), 
+    windowTitle = "Image Georeferencing"
+    ),
   
   sidebarLayout(
     sidebarPanel(width = 3,
                  includeMarkdown('instructions.md'),
                  h3("Import Image"),
                  wellPanel(style = 'background-color: #637281; padding: 10px; margin-top: 5px;',
-                   fileInput('add_file', label = NULL, placeholder =  'JPEG, PNG, TIFF or BMP')
+                   fileInput('add_file', label = 'Select or drag n drop image', placeholder =  'JPEG, PNG, TIFF or BMP')
                  ),
                  h3('Parameters'),
                  tabsetPanel(type = "tabs",
