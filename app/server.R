@@ -43,11 +43,16 @@ function(input, output, session) {
                  nrow(r) - img_pts$y[1:2])
 
     pts <<- geo_pts()$finished %>%
-      st_transform(input$crs) %>%
+      #st_transform(input$crs) %>%
       sf::st_coordinates()
 
+    pts_plot <<- geo_pts()$finished %>%
+      st_transform(input$crs)
+      
+    prj_string = sprintf('+init=epsg:%s', input$crs)
+    
     withProgress(message = 'Georeferencing Image', {
-      rfix  <<- setExtent(r, affinething::domath(pts, xy, r = r))
+      rfix  <<- setExtent(r, affinething::domath(pts, xy, r = r, proj = prj_string))
     })
 
     # add to leaflet map
@@ -60,9 +65,14 @@ function(input, output, session) {
       #addRasterImage(raster(rfix), opacity = 0.8, project = FALSE)
 
     output$corrected <- renderPlot({
-      plotRGB(rfix)
-      maps::map(add = TRUE)
-      points(pts, col = 'red')
+      #get world map
+      wrld <- rnaturalearth::ne_countries(country = input$cntry, returnclass = "sf", scale = 10) %>%
+        st_transform(input$crs)
+      
+      plot(rfix[[1]])
+      #maps::map(col = '#e26900', add = TRUE, cex = 2)
+      plot(st_geometry(wrld), add = TRUE)
+      plot(st_geometry(pts_plot), col = 'red', cex = 2, add = TRUE)
     }, height = function(){session$clientData$output_corrected_width * 0.66})
 
   })
