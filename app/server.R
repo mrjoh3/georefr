@@ -42,7 +42,9 @@ function(input, output, session) {
     xy <<- cbind(img_pts$x[1:2],
                  nrow(r) - img_pts$y[1:2])
 
-    pts <<- sf::st_coordinates(geo_pts()$finished)
+    pts <<- geo_pts()$finished %>%
+      st_transform(input$crs) %>%
+      sf::st_coordinates()
 
     withProgress(message = 'Georeferencing Image', {
       rfix  <<- setExtent(r, affinething::domath(pts, xy, r = r))
