@@ -66,7 +66,7 @@ function(input, output, session) {
 
     output$corrected <- renderPlot({
       #get world map
-      wrld <- rnaturalearth::ne_countries(country = input$cntry, returnclass = "sf", scale = 10) %>%
+      wrld <- rnaturalearth::ne_countries(country = input$cntry, returnclass = "sf", scale = 50) %>%
         st_transform(input$crs)
       
       plot(rfix[[1]])

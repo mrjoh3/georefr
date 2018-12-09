@@ -5,8 +5,8 @@ account: mrjoh3
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 593148
-bundleId: 1750720
+bundleId: 1750736
 url: https://mrjoh3.shinyapps.io/georefr/
-when: 1544355529.03668
+when: 1544356878.49201
 asMultiple: FALSE
 asStatic: FALSE

@@ -14,7 +14,7 @@ library(rgdal)
 library(rgeos)
 
 library(rnaturalearth)
-library(rnaturalearthhires)
+library(rnaturalearthdata)
 
 # use this to set map extent
 world <- sf::st_as_sf(maps::map('world', plot = FALSE, fill = TRUE))
